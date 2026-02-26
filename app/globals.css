@@ -1,35 +1,29 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-/* CẤU HÌNH THEME CHO TAILWIND V4 */
+@custom-variant dark (&:is(.dark *));
+
 @theme {
-  /* 1. Map biến Font từ Next.js */
+  /* Font & Colors [cite: 398-399] */
   --font-corinthia: var(--font-corinthia);
   --font-montserrat: var(--font-montserrat);
   --font-petit-formal-script: var(--font-petit-formal-script);
-
-  /* 2. Màu sắc */
+  
   --color-gold: #B8A688;
   --color-text-dark: #333333;
   --color-text-light: #666666;
   --color-paper: #FDFCFB;
 
-  /* 3. Typography Hệ Thống - Linh hoạt cho Responsive */
+  /* Typography & Breakpoints [cite: 399-400] */
   --text-xss: 11px;
-  /* Dùng cho các dòng text siêu nhỏ */
   --text-md: 15px;
-  /* Nội dung text chính */
   --text-md-plus: 17px;
-  /* Label form và tiêu đề nhỏ */
   --text-xxl: 22px;
-  /* Tiêu đề vừa */
   --text-2xxl: 26px;
-  /* Tiêu đề lớn */
-
-  /* 4. Breakpoints */
   --breakpoint-xs: 375px;
-  /* Hỗ trợ mobile nhỏ như iPhone SE */
 
-  /* 5. Shadow & Animation */
+  /* Shadow & Animation [cite: 400-401] */
   --shadow-card: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
   --animate-pop-in: pop-in 0.6s ease-out forwards;
   --animate-shake-gift: shake-gift 1s ease-in-out infinite 0.6s;
@@ -37,72 +31,121 @@
 
 @layer base {
   body {
-    background-color: #E5E5E5;
-    /* Nền xám ngoài khung trên Desktop */
+    background-color: #E5E5E5; /* Nền xám ngoài khung trên Desktop [cite: 401] */
     margin: 0;
     display: flex;
     justify-content: center;
     min-height: 100vh;
     color: #333;
     font-family: var(--font-montserrat), serif;
-    overflow: hidden;
-    /* Chống cuộn toàn bộ trang body để scroll trong khung */
+    overflow: hidden; /* Mặc định khóa cuộn toàn trang [cite: 402] */
+    @apply bg-background text-foreground;
+  }
+  * {
+    @apply border-border outline-ring/50;
   }
 }
 
 @layer utilities {
+  /* Logic điều khiển Scroll khi mở thiệp  */
+  .no-scroll {
+    overflow-y: hidden !important;
+    touch-action: none;
+  }
 
-  /* Tắt scrollbar mặc định trên mobile để giao diện sạch */
+  .allow-scroll {
+    overflow-y: auto !important;
+    touch-action: auto;
+  }
+
+  /* Custom Scrollbar [cite: 406-409] */
   @media (max-width: 768px) {
     .custom-scrollbar::-webkit-scrollbar {
       display: none;
     }
   }
-
   .custom-scrollbar::-webkit-scrollbar {
     width: 4px;
   }
-
   .custom-scrollbar::-webkit-scrollbar-track {
     background: transparent;
   }
-
   .custom-scrollbar::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.1);
     border-radius: 10px;
   }
 }
 
-/* KEYFRAMES */
+/* Biến hệ thống Shadcn - Đã đồng bộ Gold  */
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  
+  /* ĐỒNG BỘ MÀU GOLD CHO SHADCN COMPONENTS */
+  --primary: #B8A688; 
+  --primary-foreground: #FFFFFF;
+  --ring: #B8A688;
+
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --primary: #B8A688;
+  --primary-foreground: #FFFFFF;
+  --ring: #B8A688;
+}
+
 @keyframes pop-in {
-  0% {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-
-  60% {
-    transform: scale(1.1);
-    opacity: 1;
-  }
-
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 @keyframes shake-gift {
-
-  0%,
-  100% {
-    transform: rotate(0deg);
-  }
-
-  25% {
-    transform: rotate(-5deg);
-  }
-
-  75% {
-    transform: rotate(5deg);
-  }
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-5deg); }
+  75% { transform: rotate(5deg); }
 }

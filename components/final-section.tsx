@@ -2,9 +2,40 @@
 
 import Image from "next/image";
 import { motion, Variants } from "framer-motion";
-import { Heart } from "./heart";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 
-// Variant chung cho hiệu ứng trượt từ dưới lên
+import { Heart } from "./heart";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { toast } from "sonner";
+
+// 1. Schema [cite: 294]
+const formSchema = z.object({
+  fullname: z.string().min(2, "Vui lòng nhập họ và tên"),
+  attendance: z.enum(["yes", "no"]),
+  guests: z.string().min(1, "Vui lòng chọn số lượng"),
+});
+
+type FormValues = z.infer<typeof formSchema>;
+
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
   visible: {
@@ -15,9 +46,38 @@ const fadeUp: Variants = {
 };
 
 export const FinalSection = () => {
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema as any),
+    defaultValues: {
+      fullname: "",
+      attendance: "yes",
+      guests: "1",
+    },
+  });
+
+  async function onSubmit(data: FormValues) {
+    try {
+      const response = await fetch("/api/rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        toast.success("Cảm ơn bạn! Xác nhận đã được gửi đi thành công.");
+        form.reset();
+      } else {
+        toast.error("Lỗi: " + response.statusText);
+      }
+
+    } catch (error) {
+      toast.error("Không thể kết nối đến máy chủ.");
+    }
+  }
+
   return (
     <section className="w-full flex flex-col items-center my-14 px-4 space-y-16 overflow-hidden">
-      {/* 1. KHỐI HỘP QUÀ CƯỚI - Trigger khi hiện 50% */}
+      {/* KHỐI 1: HỘP QUÀ [cite: 299-301] */}
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -26,88 +86,129 @@ export const FinalSection = () => {
         className="flex flex-col items-center space-y-10"
       >
         <Heart />
-
-        {/* Giữ nguyên animate-shake-gift và các class custom của bạn */}
-        <div className="relative w-[80px] h-[80px] animate-shake-gift origin-bottom transition-transform">
+        <div className="relative w-[80px] h-[80px] animate-shake-gift origin-bottom  transition-transform">
           <Image
             src="https://assets.cinelove.me/resources/flowchartIcons/bc7ro23uqhun7ge954163l.png"
-            alt="Wedding Gift Box Icon"
+            alt="Gift Box"
             fill
             className="object-contain"
           />
         </div>
-
-        <div className="text-lg font-extralight">Hộp quà cưới</div>
+        <div className="text-lg font-extralight text-gray-500">
+          Hộp quà cưới
+        </div>
       </motion.div>
 
-      {/* 2. KHỐI FORM XÁC NHẬN THAM DỰ (RSVP) - Trigger riêng khi cuộn tới form */}
+      {/* KHỐI 2: FORM [cite: 301-318] */}
       <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
         variants={fadeUp}
-        className="w-[90%] max-w-[360px] bg-white rounded-md shadow-[0_8px_30px_rgba(0,0,0,0.06)] p-7 border border-gray-100"
+        className="w-[90%] max-w-[360px] bg-white rounded-md shadow-card p-7 border border-gray-100"
       >
-        <h3 className="text-center font-bold mb-6">Xác nhận tham dự</h3>
-
-        <form className="space-y-5 text-sm">
-          <div className="space-y-2">
-            <label className="block">Họ và tên</label>
-            <input
-              type="text"
-              placeholder="Nhập tên của bạn"
-              className="w-full border border-gray-300 rounded-md px-3 py-2.5 outline-none focus:border-[#b29d88] focus:ring-1 focus:ring-[#b29d88] transition-all"
+        <h3 className="text-center font-bold mb-6">
+          Xác nhận tham dự
+        </h3>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="fullname"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-light text-sm">
+                    Họ và tên
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Nhập tên của bạn"
+                      className="py-5 font-light"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-xs text-red-500 font-light" />
+                </FormItem>
+              )}
             />
-          </div>
 
-          <div className="space-y-3 pt-1">
-            <label className="block">Bạn sẽ tham dự chứ?</label>
-            <div className="space-y-2.5 text-xs md:text-sm">
-              <label className="flex items-center space-x-3 cursor-pointer">
-                <input
-                  type="radio"
-                  name="attendance"
-                  value="yes"
-                  defaultChecked
-                  className="w-4 h-4 text-blue-500 focus:ring-blue-500 cursor-pointer"
-                />
-                <span>Có, tôi sẽ tham dự</span>
-              </label>
-              <label className="flex items-center space-x-3 cursor-pointer">
-                <input
-                  type="radio"
-                  name="attendance"
-                  value="no"
-                  className="w-4 h-4 text-blue-500 focus:ring-blue-500 cursor-pointer"
-                />
-                <span>Tôi bận, rất tiếc không thể tham dự</span>
-              </label>
-            </div>
-          </div>
+            <FormField
+              control={form.control}
+              name="attendance"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormLabel className="font-light text-sm">
+                    Bạn sẽ tham dự chứ?
+                  </FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      className="flex flex-col space-y-2"
+                    >
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="yes" />
+                        </FormControl>
+                        <FormLabel className="font-light cursor-pointer text-sm">
+                          Có, tôi sẽ tham dự
+                        </FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="no" />
+                        </FormControl>
+                        <FormLabel className="font-light cursor-pointer text-sm">
+                          Tôi bận, rất tiếc không thể tham dự
+                        </FormLabel>
+                      </FormItem>
+                    </RadioGroup>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
 
-          <div className="space-y-2 pt-1">
-            <label className="block text-[#333]">Số lượng người tham dự</label>
-            <select className="w-full border border-gray-300 rounded-md px-3 py-2.5 outline-none focus:border-[#b29d88] focus:ring-1 focus:ring-[#b29d88] bg-white transition-all cursor-pointer">
-              <option value="1">1 người</option>
-              <option value="2">2 người</option>
-              <option value="3">3 người</option>
-              <option value="4">4 người</option>
-              <option value="5">5 người</option>
-            </select>
-          </div>
+            <FormField
+              control={form.control}
+              name="guests"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-light text-sm">
+                    Số lượng người tham dự
+                  </FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger className="py-5 font-light w-full">
+                        <SelectValue placeholder="Chọn số lượng" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {["1", "2", "3", "4", "5"].map((num) => (
+                        <SelectItem
+                          key={num}
+                          value={num}
+                          className="font-light"
+                        >
+                          {num} người
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
 
-          <div className="pt-4">
-            <button
-              type="button"
-              className="w-full bg-[#b29d88] text-white font-medium py-3 rounded-md hover:bg-[#a38e79] active:scale-[0.98] transition-all"
+            <Button
+              type="submit"
+              className="w-full py-6 font-medium active:scale-[0.98] transition-all"
             >
               Gửi xác nhận
-            </button>
-          </div>
-        </form>
+            </Button>
+          </form>
+        </Form>
       </motion.div>
 
-      {/* 3. KHỐI CHIBI & THANK YOU - Trigger khi cuộn tới đáy thiệp */}
+      {/* KHỐI 3: CHIBI [cite: 318-322] */}
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -118,16 +219,15 @@ export const FinalSection = () => {
         <div className="relative w-[110px] h-[120px]">
           <Image
             src="https://assets.cinelove.me/resources/characters/h4py3okq2aoga2u5n94fcq.png"
-            alt="Groom and Bride Chibi Characters"
+            alt="Chibi"
             fill
             className="object-contain"
           />
         </div>
-
         <div className="relative w-[220px] h-[60px]">
           <Image
             src="https://assets.cinelove.me/templates/assets/0189eb35-5cf1-4525-a8d0-867f70e0bf67/b2369584-b526-46a5-851b-034c9f2e1e0f.png"
-            alt="Thank You Decorative Text"
+            alt="Thank You"
             fill
             className="object-contain"
           />
