@@ -47,7 +47,7 @@ export const SweetTransition = () => {
         className="absolute inset-0 w-full h-full z-0"
       >
         <Image
-          src="https://assets.cinelove.me/templates/assets/0189eb35-5cf1-4525-a8d0-867f70e0bf67/e986b1a5-2f6a-4562-ba4b-1ae07685f39e.jpeg"
+          src="/images/TSON5598.webp"
           alt="Sweet Wedding Transition"
           fill
           className="object-cover object-top"

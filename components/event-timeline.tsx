@@ -44,7 +44,7 @@ export const EventTimeline = () => {
           className="relative w-[280px] h-[45px] md:w-[320px] md:h-[50px]"
         >
           <Image
-            src="https://assets.cinelove.me/templates/assets/0189eb35-5cf1-4525-a8d0-867f70e0bf67/e89ebd60-3f04-4013-9c11-9103dc96a28a.png"
+            src="/images/save-the-date.webp"
             alt="Save The Date"
             fill
             className="object-contain"
@@ -64,8 +64,7 @@ export const EventTimeline = () => {
         <div
           className="relative w-full max-w-[450px] aspect-500/850 bg-no-repeat bg-center bg-size-[100%_100%] shadow-2xl"
           style={{
-            backgroundImage:
-              "url('https://assets.cinelove.me/templates/assets/0189eb35-5cf1-4525-a8d0-867f70e0bf67/66d12607-1554-4e57-b216-4f105da70233.png')",
+            backgroundImage: "url('/images/date-frame.png')",
           }}
         >
           <div className="absolute top-[3%] left-[5%] right-[5%] bottom-[17%] overflow-hidden rounded-sm bg-gray-200">
@@ -78,10 +77,10 @@ export const EventTimeline = () => {
               className="relative w-full h-full"
             >
               <Image
-                src="https://assets.cinelove.me/templates/assets/0189eb35-5cf1-4525-a8d0-867f70e0bf67/e986b1a5-2f6a-4562-ba4b-1ae07685f39e.jpeg"
-                alt="Calendar Background"
                 fill
                 className="object-cover"
+                alt="Calendar Background"
+                src="/images/TSON5976.webp"
               />
               <div className="absolute inset-x-0 bottom-0 h-[65%] bg-linear-to-t from-black/80 via-black/30 to-transparent pointer-events-none"></div>
             </motion.div>
@@ -108,10 +107,10 @@ export const EventTimeline = () => {
                         <span className="relative z-10 font-bold">{day}</span>
                         <div className="absolute z-0 w-[40px] h-[40px] top-[60%] left-[50%] -translate-x-[50%] -translate-y-[50%] opacity-90">
                           <Image
-                            src="https://assets.cinelove.me/assets/plugins/calen_heart_1.png"
-                            alt="Heart Marker"
                             fill
+                            alt="Heart Marker"
                             className="object-contain"
+                            src="/images/calen-heart.webp"
                           />
                         </div>
                       </>

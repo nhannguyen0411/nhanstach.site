@@ -88,9 +88,9 @@ export const FinalSection = () => {
         <Heart />
         <div className="relative w-[80px] h-[80px] animate-shake-gift origin-bottom  transition-transform">
           <Image
-            src="https://assets.cinelove.me/resources/flowchartIcons/bc7ro23uqhun7ge954163l.png"
-            alt="Gift Box"
             fill
+            alt="Gift Box"
+            src="/images/gift.png"
             className="object-contain"
           />
         </div>
@@ -218,17 +218,17 @@ export const FinalSection = () => {
       >
         <div className="relative w-[110px] h-[120px]">
           <Image
-            src="https://assets.cinelove.me/resources/characters/h4py3okq2aoga2u5n94fcq.png"
-            alt="Chibi"
             fill
+            alt="Chibi"
+            src="/images/couple.png"
             className="object-contain"
           />
         </div>
         <div className="relative w-[220px] h-[60px]">
           <Image
-            src="https://assets.cinelove.me/templates/assets/0189eb35-5cf1-4525-a8d0-867f70e0bf67/b2369584-b526-46a5-851b-034c9f2e1e0f.png"
-            alt="Thank You"
             fill
+            alt="Thank You"
+            src="/images/thank-you.png"
             className="object-contain"
           />
         </div>

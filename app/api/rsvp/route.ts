@@ -29,19 +29,22 @@ export async function POST(request: Request) {
     // 3. Thực hiện chèn dữ liệu vào sheet (Sheet1 là tên mặc định của tab)
     await sheets.spreadsheets.values.append({
       spreadsheetId: process.env.GOOGLE_SHEET_ID,
-      range: "Sheet1!A:D", 
+      range: "Sheet1!A:D",
       valueInputOption: "USER_ENTERED",
       requestBody: {
         values,
       },
     });
 
-    return NextResponse.json({ message: "Gửi dữ liệu thành công!" }, { status: 200 });
+    return NextResponse.json(
+      { message: "Gửi dữ liệu thành công!" },
+      { status: 200 },
+    );
   } catch (error: any) {
     console.error("Google Sheets Error:", error);
     return NextResponse.json(
       { message: "Lỗi kết nối Google Sheets", error: error.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

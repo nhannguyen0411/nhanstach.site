@@ -46,7 +46,7 @@ export const CoupleProfiles = () => {
         className="relative w-[261px] h-[57px]"
       >
         <Image
-          src="https://assets.cinelove.me/templates/assets/0189eb35-5cf1-4525-a8d0-867f70e0bf67/c8518188-4ee3-4063-84d6-7901def53cd9.png"
+          src="/images/my-love.webp"
           alt="Decoration Brush"
           fill
           className="object-contain"

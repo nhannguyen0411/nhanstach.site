@@ -34,7 +34,7 @@
   margin-left: auto;
   margin-right: auto;
   top: 0;
-  left: 50%;
+  left: 47.5%;
   transform: translateX(-50%);
   background-color: #c5bcab;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
@@ -42,6 +42,12 @@
   cursor: pointer;
   animation: float 3s ease-in-out infinite;
   z-index: 10;
+}
+
+@media (min-width: 768px) {
+  .envelope-container {
+    left: 50%;
+  }
 }
 
 .front {
@@ -82,11 +88,11 @@
 
 .wax-seal {
   position: absolute;
-  top: 80px;
+  top: 87px;
   left: 50%;
   transform: translateX(-50%);
-  width: 39px;
-  height: 39px;
+  width: 32px;
+  height: 32px;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;

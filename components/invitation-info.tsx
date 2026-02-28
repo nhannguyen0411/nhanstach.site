@@ -68,8 +68,7 @@ export const InvitationInfo = () => {
           <div
             className="w-[200px] h-[30px] bg-size-[100%_auto] bg-center bg-no-repeat"
             style={{
-              backgroundImage:
-                "url('https://assets.cinelove.me/resources/dividers/16cvdln0hsto193fhow8kr.svg')",
+              backgroundImage: "url('/images/footer-main-page.svg')",
             }}
           />
         </motion.div>

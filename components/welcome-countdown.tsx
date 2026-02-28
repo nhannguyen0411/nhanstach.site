@@ -97,8 +97,7 @@ export const WelcomeCountdown = () => {
         <div
           className="relative w-full aspect-500/900 bg-no-repeat bg-center bg-size-[100%_100%] flex flex-col justify-between py-[5.5%] px-[9.5%]"
           style={{
-            backgroundImage:
-              "url('https://assets.cinelove.me/templates/assets/0189eb35-5cf1-4525-a8d0-867f70e0bf67/2d021cc4-357c-48c9-9e46-81c3730d8c76.png')",
+            backgroundImage: "url('/images/countdown-frame.png')",
           }}
         >
           {/* Ảnh 1 + Quote 1 */}
@@ -113,7 +112,7 @@ export const WelcomeCountdown = () => {
               className="relative w-full h-full"
             >
               <Image
-                src="https://assets.cinelove.me/templates/assets/0189eb35-5cf1-4525-a8d0-867f70e0bf67/f68e05b9-48ee-4b3a-95a3-e9efea5cbecd.jpg"
+                src="/images/TSON5818.webp"
                 alt="Phuong Trang & Trong Nhan Gallery 1"
                 fill
                 className="object-cover"
@@ -140,7 +139,7 @@ export const WelcomeCountdown = () => {
               className="relative w-full h-full"
             >
               <Image
-                src="https://assets.cinelove.me/templates/assets/0189eb35-5cf1-4525-a8d0-867f70e0bf67/b192c518-cb49-4ca6-9b2a-84859b513df6.jpg"
+                src="/images/TSON6107.webp"
                 alt="Phuong Trang & Trong Nhan Gallery 2"
                 fill
                 className="object-cover"
@@ -167,7 +166,7 @@ export const WelcomeCountdown = () => {
               className="relative w-full h-full"
             >
               <Image
-                src="https://assets.cinelove.me/templates/assets/0189eb35-5cf1-4525-a8d0-867f70e0bf67/b51f0c79-7294-4c57-a8f2-227681a33969.jpg"
+                src="/images/TSON6195.webp"
                 alt="Phuong Trang & Trong Nhan Gallery 3"
                 fill
                 className="object-cover"
