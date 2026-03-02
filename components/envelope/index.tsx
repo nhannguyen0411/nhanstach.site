@@ -1,20 +1,30 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import "./style.css";
 
 interface EnvelopeProps {
   onOpen?: () => void;
 }
 
+type Phase = "front" | "flipped" | "open";
+
 export const Envelope = ({ onOpen }: EnvelopeProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [phase, setPhase] = useState<Phase>("front");
+  // Safari không hỗ trợ backface-visibility: hidden đáng tin cậy (bug với
+  // will-change, box-shadow, compositing layer). Dùng opacity để ẩn front face
+  // ngay khi click — trước khi back face xuất hiện (~180ms với ease-out curve).
+  const [frontOpaque, setFrontOpaque] = useState(true);
 
   const handleOpen = () => {
-    if (!isOpen) {
-      setIsOpen(true);
+    if (phase !== "front") return;
+    setFrontOpaque(false); // ẩn ngay lập tức, transition 0.18s trong CSS
+    setPhase("flipped");
+    setTimeout(() => {
+      setPhase("open");
       if (onOpen) onOpen();
-    }
+    }, 850);
   };
 
   return (
@@ -27,28 +37,72 @@ export const Envelope = ({ onOpen }: EnvelopeProps) => {
         className="relative w-full flex justify-center cursor-pointer"
         onClick={handleOpen}
       >
-        <div className={`envelope-container ${isOpen ? "open" : "close"} scale-90 md:scale-100`}>
-          <div className="front flap" />
-          <div className="front pocket" />
+        {/* Flip outer: handles positioning + float animation */}
+        <div className={`envelope-flip-outer ${phase !== "front" ? "flipped" : ""}`}>
+          {/* Flip inner: handles 3D rotation */}
+          <div className="envelope-flip-inner">
 
-          <div
-            className="wax-seal"
-            style={{ backgroundImage: "url('/images/wax-seal.webp')" }}
-          />
+            {/* FRONT FACE */}
+            <div className="envelope-face card-front" style={{ opacity: frontOpaque ? 1 : 0 }}>
+              <div className="card-flower card-flower-tl">
+                <Image
+                  fill
+                  alt="Flower Top Left"
+                  src="/images/flower-top-left.webp"
+                  className="object-contain"
+                  priority
+                />
+              </div>
+              <div className="card-flower card-flower-br">
+                <Image
+                  fill
+                  alt="Flower Bottom Right"
+                  className="object-contain"
+                  src="/images/flower-bottom-right.webp"
+                  priority
+                />
+              </div>
+              <div className="card-logo-wrap">
+                <Image
+                  src="/images/logo.webp"
+                  alt="NT Monogram"
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </div>
+              <div className="card-text-block">
+                <div className="card-names">TRỌNG NHÂN &amp; PHƯƠNG TRANG</div>
+                <div className="card-date">CHỦ NHẬT — 05.04.2026</div>
+                <div className="card-divider" />
+              </div>
+            </div>
 
-          <div
-            className="letter"
-            style={{
-              backgroundImage: "url('/images/TSON5866.webp')",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          />
+            {/* BACK FACE */}
+            <div className="envelope-face card-back">
+              <div className={`envelope-container ${phase === "open" ? "open" : "close"}`}>
+                <div className="front flap back-flap" />
+                <div className="front pocket back-pocket" />
+                <div
+                  className="wax-seal"
+                  style={{ backgroundImage: "url('/images/wax-seal.webp')" }}
+                />
+                <div
+                  className="letter"
+                  style={{
+                    backgroundImage: "url('/images/TSON5866.webp')",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                />
+                <div className="hearts">
+                  <div className="heart a1" />
+                  <div className="heart a2" />
+                  <div className="heart a3" />
+                </div>
+              </div>
+            </div>
 
-          <div className="hearts">
-            <div className="heart a1" />
-            <div className="heart a2" />
-            <div className="heart a3" />
           </div>
         </div>
 

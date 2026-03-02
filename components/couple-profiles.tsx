@@ -43,14 +43,9 @@ export const CoupleProfiles = () => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.5 }}
-        className="relative w-[261px] h-[57px]"
+        className="font-imperial-script text-gold text-5xl md:text-6xl tracking-widest"
       >
-        <Image
-          src="/images/my-love.webp"
-          alt="Decoration Brush"
-          fill
-          className="object-contain"
-        />
+        My Love
       </motion.div>
 
       {/* 2. Khối Ảnh Chân Dung (Bố cục song song) */}
@@ -66,17 +61,17 @@ export const CoupleProfiles = () => {
           {/* Sửa lỗi cú pháp aspect ratio: aspect-[180/258] */}
           <div className="relative w-full aspect-180/258 mb-5">
             <Image
-              src="/images/TSON6302.webp"
-              alt="Groom"
               fill
+              alt="Groom"
               className="object-cover"
+              src="/images/TSON6302.webp"
             />
           </div>
           <div className="text-center">
             <div className="font-light mb-1 text-gray-400 text-sm md:text-base">
               Út Nam
             </div>
-            <div className="text-lg md:text-xl">Trọng Nhân</div>
+            <div className="text-2xl md:text-3xl font-imperial-script">Trọng Nhân</div>
           </div>
         </motion.div>
 
@@ -100,7 +95,7 @@ export const CoupleProfiles = () => {
             <div className="font-light mb-1 text-gray-400 text-sm md:text-base">
               Út Nữ
             </div>
-            <div className="text-lg md:text-xl">Phương Trang</div>
+            <div className="text-xl md:text-3xl font-imperial-script">Phương Trang</div>
           </div>
         </motion.div>
       </div>
@@ -110,17 +105,13 @@ export const CoupleProfiles = () => {
         variants={fadeUpVariant}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.6 }}
+        viewport={{ once: true, amount: 0.2 }}
         className="flex flex-col items-center text-center px-10 space-y-8"
       >
-        <div className="text-sm md:text-lg leading-relaxed italic">
-          Trái tim em, <br />
-          Tựa cánh chim nhỏ giữa đồng hoang, <br />
-          Đã tìm thấy bầu trời của riêng mình <br />
-          Trong đôi mắt anh.
-        </div>
-        <div className="text-sm md:text-lg tracking-wide py-5">
-          My heart, the bird of the wilderness has found its sky in your eye.
+        <div className="text-sm md:text-base leading-relaxed italic">
+          Không cần lý do lớn, <br />
+          Không cần lời hứa dài. <br />
+          Chỉ cần có nhau. <br />
         </div>
       </motion.div>
     </section>

@@ -41,21 +41,9 @@ export const EventTimeline = () => {
         </motion.div>
         <motion.div
           variants={fadeUp}
-          className="relative w-[280px] h-[45px] md:w-[320px] md:h-[50px]"
+          className="font-imperial-script text-gold text-5xl md:text-6xl tracking-widest"
         >
-          <Image
-            src="/images/save-the-date.webp"
-            alt="Save The Date"
-            fill
-            className="object-contain"
-          />
-        </motion.div>
-        <motion.div
-          variants={fadeUp}
-          className="text-sm md:text-md leading-relaxed tracking-wide"
-        >
-          Đi một vòng lớn rồi vẫn gặp anh, <br /> Từ đó, thế gian bỗng hóa dịu
-          dàng.
+          Save The Date
         </motion.div>
       </motion.div>
 
@@ -64,7 +52,7 @@ export const EventTimeline = () => {
         <div
           className="relative w-full max-w-[450px] aspect-500/850 bg-no-repeat bg-center bg-size-[100%_100%] shadow-2xl"
           style={{
-            backgroundImage: "url('/images/date-frame.png')",
+            backgroundImage: "url('/images/date-frame.webp')",
           }}
         >
           <div className="absolute top-[3%] left-[5%] right-[5%] bottom-[17%] overflow-hidden rounded-sm bg-gray-200">
@@ -136,7 +124,7 @@ export const EventTimeline = () => {
               Chủ Nhật, 05/04/2026
             </div>
             <div className="text-base md:text-xl font-light tracking-wide">
-              Âm lịch 18/02 | 16:00 PM
+              Âm lịch 18/02 | 18:00 PM
             </div>
           </motion.div>
         </div>
@@ -150,8 +138,7 @@ export const EventTimeline = () => {
         transition={{ duration: 0.8 }}
         className="w-full text-center text-sm md:text-base italic leading-relaxed pt-2"
       >
-        Hạnh phúc lớn nhất chính là được nắm tay anh, <br /> Cùng nhau đi hết
-        cuộc đời lãng mạn này
+        Không cần phải rực rỡ, <br /> Chỉ cần cùng nhau đi hết một đời.
       </motion.div>
     </section>
   );

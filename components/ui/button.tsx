@@ -1,6 +1,7 @@
 import * as React from "react"
+import { Loader2 } from "lucide-react"
+import { Slot, Slottable } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority"
-import { Slot } from "radix-ui"
 
 import { cn } from "@/lib/utils"
 
@@ -38,27 +39,45 @@ const buttonVariants = cva(
   }
 )
 
-function Button({
-  className,
-  variant = "default",
-  size = "default",
-  asChild = false,
-  ...props
-}: React.ComponentProps<"button"> &
-  VariantProps<typeof buttonVariants> & {
-    asChild?: boolean
-  }) {
-  const Comp = asChild ? Slot.Root : "button"
-
-  return (
-    <Comp
-      data-slot="button"
-      data-variant={variant}
-      data-size={size}
-      className={cn(buttonVariants({ variant, size, className }))}
-      {...props}
-    />
-  )
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
+  isLoading?: boolean;
 }
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      className,
+      variant,
+      size,
+      asChild = false,
+      isLoading = false,
+      disabled,
+      // always set type to avoid browsers to set it to submit
+      type = "button",
+      children,
+      ...props
+    },
+    ref,
+  ) => {
+    const Comp = asChild ? Slot : "button";
+    return (
+      <Comp
+        disabled={isLoading || disabled}
+        data-slot="button"
+        className={cn(buttonVariants({ variant, size, className }))}
+        type={type}
+        ref={ref}
+        {...props}
+      >
+        {isLoading && <Loader2 className="animate-spin" />}
+        {isLoading && size === "icon" ? null : <Slottable>{children}</Slottable>}
+      </Comp>
+    );
+  },
+);
+
 
 export { Button, buttonVariants }

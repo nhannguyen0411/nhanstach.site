@@ -12,14 +12,17 @@ import { FallInLove } from "@/components/fall-in-love";
 import { Envelope } from "@/components/envelope";
 import { Heart } from "@/components/heart";
 import { Wish } from "@/components/wish";
+import { MusicPlayer } from "@/components/music-player";
 
 export default function LandingPage() {
   const [canScroll, setCanScroll] = useState(false);
+  const [musicTriggered, setMusicTriggered] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const requestRef = useRef<number | null>(null);
   const autoScrollTimeoutRef = useRef<number | null>(null);
   const isAutoScrollingRef = useRef(false);
   const accumulatedScrollRef = useRef(0);
+  const lastTimestampRef = useRef<number | null>(null);
   const touchStartYRef = useRef<number | null>(null);
 
   const startAutoScroll = () => {
@@ -28,23 +31,29 @@ export default function LandingPage() {
     if (isAutoScrollingRef.current) return;
     isAutoScrollingRef.current = true;
     accumulatedScrollRef.current = container.scrollTop ?? 0;
+    lastTimestampRef.current = null;
 
-    const performScroll = () => {
+    const performScroll = (timestamp: number) => {
       const el = scrollRef.current;
       if (!el || !isAutoScrollingRef.current) return;
 
       const maxScrollTop = el.scrollHeight - el.clientHeight;
 
-      // Safari đôi khi trả về scrollTop dạng số nguyên: cộng số lẻ sẽ không tiến triển.
-      // Vì vậy phải tích lũy bằng số thực, rồi gán số nguyên cho scrollTop.
       if (maxScrollTop > 0) {
-        accumulatedScrollRef.current = Math.min(accumulatedScrollRef.current + 0.7, maxScrollTop);
-        el.scrollTop = Math.floor(accumulatedScrollRef.current);
+        // Dùng delta thời gian để tốc độ nhất quán trên mọi màn hình (60/90/120fps)
+        // Cap 100ms để tránh nhảy lớn khi đổi tab
+        const elapsed = lastTimestampRef.current !== null
+          ? Math.min(timestamp - lastTimestampRef.current, 100)
+          : 0;
+        const delta = (elapsed / 1000) * 60; // 45px/s
+        accumulatedScrollRef.current = Math.min(accumulatedScrollRef.current + delta, maxScrollTop);
+        el.scrollTop = accumulatedScrollRef.current;
       }
 
-      // Nếu chưa có gì để cuộn (layout/chưa load xong), cứ tiếp tục chờ frame sau.
+      lastTimestampRef.current = timestamp;
+
       // Chỉ dừng khi thật sự đã chạm đáy (thêm sai số nhỏ cho Safari).
-      if (maxScrollTop > 0 && el.scrollTop >= maxScrollTop - 1) {
+      if (maxScrollTop > 0 && accumulatedScrollRef.current >= maxScrollTop - 1) {
         isAutoScrollingRef.current = false;
         requestRef.current = null;
         return;
@@ -71,6 +80,7 @@ export default function LandingPage() {
 
   const handleOpen = () => {
     setCanScroll(true);
+    setMusicTriggered(true);
   };
 
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -108,7 +118,8 @@ export default function LandingPage() {
 
   return (
     <main className="h-screen w-full flex items-center justify-center p-0 md:p-4 bg-[#f0f2f5] ">
-      <div 
+      <MusicPlayer play={musicTriggered} />
+      <div
         ref={scrollRef}
         onWheel={stopAutoScroll}
         onTouchStart={handleTouchStart}

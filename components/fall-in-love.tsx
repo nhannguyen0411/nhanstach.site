@@ -15,30 +15,30 @@ const topContainerVariants: Variants = {
   },
 };
 
-const leftIn: Variants = {
-  hidden: { opacity: 0, x: -60, y: -20 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    y: 0,
-    transition: { duration: 1, ease: "easeOut" },
-  },
-};
+// const leftIn: Variants = {
+//   hidden: { opacity: 0, x: -60, y: -20 },
+//   visible: {
+//     opacity: 1,
+//     x: 0,
+//     y: 0,
+//     transition: { duration: 1, ease: "easeOut" },
+//   },
+// };
 
-const topIn: Variants = {
-  hidden: { opacity: 0, y: -60 },
-  visible: { opacity: 1, y: 0, transition: { duration: 1, ease: "easeOut" } },
-};
+// const topIn: Variants = {
+//   hidden: { opacity: 0, y: -60 },
+//   visible: { opacity: 1, y: 0, transition: { duration: 1, ease: "easeOut" } },
+// };
 
-const rightIn: Variants = {
-  hidden: { opacity: 0, x: 60, y: -20 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    y: 0,
-    transition: { duration: 1, ease: "easeOut" },
-  },
-};
+// const rightIn: Variants = {
+//   hidden: { opacity: 0, x: 60, y: -20 },
+//   visible: {
+//     opacity: 1,
+//     x: 0,
+//     y: 0,
+//     transition: { duration: 1, ease: "easeOut" },
+//   },
+// };
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -61,11 +61,11 @@ export const FallInLove = () => {
         className="w-full flex flex-col items-center"
       >
         {/* Header 3 chữ hội tụ - Sẽ bắt đầu và kết thúc cùng lúc */}
-        <div className="w-full flex justify-between px-2 md:px-5 text-base md:text-lg tracking-wider text-gray-500 uppercase font-extralight">
+        {/* <div className="w-full flex justify-between px-2 md:px-5 text-base md:text-lg tracking-wider text-gray-500 uppercase font-extralight">
           <motion.span variants={leftIn}>Fall In</motion.span>
           <motion.span variants={topIn}>Love</motion.span>
           <motion.span variants={rightIn}>Wedding</motion.span>
-        </div>
+        </div> */}
 
         {/* Khối Ảnh */}
         <motion.div
@@ -81,22 +81,22 @@ export const FallInLove = () => {
             />
           </div>
           <div className="text-white text-xss md:text-xs font-montserrat text-center mt-3 px-2 font-light tracking-wide">
-            As the clouds and mist dissipate, I love you and everyone knows it
+          We choose to stay by each other’s side for the journey ahead
           </div>
         </motion.div>
       </motion.div>
 
       {/* KHỐI 2: Lời cảm ơn (Dùng trigger cuộn RIÊNG BIỆT) */}
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.4 }}
+        viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.8, delay: 0.1 }}
-        className="w-full px-2 md:px-6 mt-14 text-center text-base md:text-lg leading-relaxed font-light text-gray-600"
+        className="w-full px-2 md:px-6 mt-14 text-center text-sm md:text-base leading-relaxed font-light text-gray-600"
       >
         To Our Family And Friends, <br />
         Thank You For Celebrating Our Special Day, <br />
-        Supporting Us And Sharing Our Love.
+        For Your Support And For Sharing In Our Joy.
       </motion.div>
     </section>
   );

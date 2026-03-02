@@ -5,30 +5,30 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 // 1. Variants cho 3 chữ Header (Chạy cùng lúc từ 3 hướng)
-const leftIn: Variants = {
-  hidden: { opacity: 0, x: -60, y: -20 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    y: 0,
-    transition: { duration: 1, ease: "easeOut" },
-  },
-};
+// const leftIn: Variants = {
+//   hidden: { opacity: 0, x: -60, y: -20 },
+//   visible: {
+//     opacity: 1,
+//     x: 0,
+//     y: 0,
+//     transition: { duration: 1, ease: "easeOut" },
+//   },
+// };
 
-const topIn: Variants = {
-  hidden: { opacity: 0, y: -60 },
-  visible: { opacity: 1, y: 0, transition: { duration: 1, ease: "easeOut" } },
-};
+// const topIn: Variants = {
+//   hidden: { opacity: 0, y: -60 },
+//   visible: { opacity: 1, y: 0, transition: { duration: 1, ease: "easeOut" } },
+// };
 
-const rightIn: Variants = {
-  hidden: { opacity: 0, x: 60, y: -20 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    y: 0,
-    transition: { duration: 1, ease: "easeOut" },
-  },
-};
+// const rightIn: Variants = {
+//   hidden: { opacity: 0, x: 60, y: -20 },
+//   visible: {
+//     opacity: 1,
+//     x: 0,
+//     y: 0,
+//     transition: { duration: 1, ease: "easeOut" },
+//   },
+// };
 
 // 2. Variants cho Ảnh và Chữ (Trượt lên độc lập)
 const imageFadeUp: Variants = {
@@ -81,30 +81,30 @@ export const WelcomeCountdown = () => {
   return (
     <section className="w-full flex flex-col items-center my-14 bg-white overflow-hidden">
       {/* 1. Tiêu đề Welcome To Wedding (3 chữ hội tụ) */}
-      <motion.div
+      {/* <motion.div
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.5 }}
+        viewport={{ once: true, amount: 0.3 }}
         className="w-full flex justify-between px-2 md:px-5 mb-2 text-base md:text-lg tracking-widest uppercase font-light"
       >
         <motion.span variants={leftIn}>Welcome</motion.span>
         <motion.span variants={topIn}>To</motion.span>
         <motion.span variants={rightIn}>Wedding</motion.span>
-      </motion.div>
+      </motion.div> */}
 
       {/* 2. Khối nền tối chứa Khung Ảnh & Quote */}
       <div className="w-full bg-black flex flex-col items-center">
         <div
-          className="relative w-full aspect-500/900 bg-no-repeat bg-center bg-size-[100%_100%] flex flex-col justify-between py-[5.5%] px-[9.5%]"
+          className="relative w-full aspect-500/900 bg-no-repeat bg-center bg-size-[100%_100%] flex flex-col justify-between space-y-2 py-[5.5%] px-[9.5%]"
           style={{
-            backgroundImage: "url('/images/countdown-frame.png')",
+            backgroundImage: "url('/images/countdown-frame.webp')",
           }}
         >
           {/* Ảnh 1 + Quote 1 */}
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.2 }}
             className="relative w-full h-[32.5%] overflow-hidden"
           >
             <motion.div
@@ -119,19 +119,13 @@ export const WelcomeCountdown = () => {
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/10 to-transparent pointer-events-none"></div>
             </motion.div>
-            <motion.div
-              variants={textFadeUp}
-              className="absolute bottom-2 md:bottom-4 left-0 w-full text-white font-montserrat font-light tracking-widest text-xss md:text-sm italic text-center px-4 drop-shadow-md"
-            >
-              I love three things in this world.
-            </motion.div>
           </motion.div>
 
           {/* Ảnh 2 + Quote 2 */}
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.2 }}
             className="relative w-full h-[32.5%] overflow-hidden"
           >
             <motion.div
@@ -146,19 +140,13 @@ export const WelcomeCountdown = () => {
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/10 to-transparent pointer-events-none"></div>
             </motion.div>
-            <motion.div
-              variants={textFadeUp}
-              className="absolute bottom-2 md:bottom-4 left-0 w-full text-white font-montserrat font-light tracking-widest text-xss md:text-sm italic text-center px-4 drop-shadow-md"
-            >
-              Sun, moon and you.
-            </motion.div>
           </motion.div>
 
           {/* Ảnh 3 + Quote 3 */}
           <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.2 }}
             className="relative w-full h-[32.5%] overflow-hidden"
           >
             <motion.div
@@ -173,12 +161,6 @@ export const WelcomeCountdown = () => {
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/10 to-transparent pointer-events-none"></div>
             </motion.div>
-            <motion.div
-              variants={textFadeUp}
-              className="absolute bottom-2 md:bottom-4 left-0 w-full text-white font-montserrat font-light tracking-widest text-xss md:text-sm italic text-center px-4 drop-shadow-md leading-relaxed"
-            >
-              Sun for morning, moon for night, <br /> and you forever.
-            </motion.div>
           </motion.div>
         </div>
 
@@ -186,7 +168,7 @@ export const WelcomeCountdown = () => {
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.8 }}
           className="w-[85%] bg-black border border-[#333] mb-6 p-6 rounded-md shadow-[0_0_20px_rgba(0,0,0,0.5)]"
         >

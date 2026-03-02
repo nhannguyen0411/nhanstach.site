@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion, Variants } from "framer-motion";
-import { useForm } from "react-hook-form";
+import { useForm, useFormContext, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
@@ -26,12 +26,21 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { useState } from "react";
 
-// 1. Schema [cite: 294]
+// 1. Schema
 const formSchema = z.object({
   fullname: z.string().min(2, "Vui lòng nhập họ và tên"),
   attendance: z.enum(["yes", "no"]),
-  guests: z.string().min(1, "Vui lòng chọn số lượng"),
+  guests: z.string().optional(),
+}).superRefine((data, ctx) => {
+  if (data.attendance === "yes" && !data.guests) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "Vui lòng chọn số lượng",
+      path: ["guests"],
+    });
+  }
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -45,7 +54,96 @@ const fadeUp: Variants = {
   },
 };
 
+const AttendanceField = () => {
+  const { control } = useFormContext<FormValues>();
+  return (
+    <FormField
+      control={control}
+      name="attendance"
+      render={({ field }) => (
+        <FormItem className="space-y-3">
+          <FormLabel className="font-light text-sm">
+            Bạn sẽ tham dự chứ?
+          </FormLabel>
+          <FormControl>
+            <RadioGroup
+              onValueChange={field.onChange}
+              value={field.value}
+              className="flex flex-col space-y-2"
+            >
+              <FormItem className="flex items-center space-x-3 space-y-0">
+                <FormControl>
+                  <RadioGroupItem value="yes" />
+                </FormControl>
+                <FormLabel className="font-light cursor-pointer text-sm">
+                  Có, tôi sẽ tham dự
+                </FormLabel>
+              </FormItem>
+              <FormItem className="flex items-center space-x-3 space-y-0">
+                <FormControl>
+                  <RadioGroupItem value="no" />
+                </FormControl>
+                <FormLabel className="font-light cursor-pointer text-sm">
+                  Tôi bận, rất tiếc không thể tham dự
+                </FormLabel>
+              </FormItem>
+            </RadioGroup>
+          </FormControl>
+        </FormItem>
+      )}
+    />
+  );
+}
+
+// useWatch chỉ trigger re-render component này khi attendance thay đổi
+const GuestsField = () => {
+  const { control } = useFormContext<FormValues>();
+  const attendance = useWatch({ control, name: "attendance" });
+
+  if (attendance === "no") {
+    return (
+      <div className="text-center text-xs font-light text-gray-500 italic leading-relaxed py-1">
+        Dù bạn không thể đến, sự hiện diện của bạn <br />
+        trong trái tim chúng tôi vẫn là điều trân quý nhất. <br />
+        Cảm ơn bạn đã nhớ đến chúng tôi! 🤍
+      </div>
+    );
+  }
+
+  return (
+    <FormField
+      control={control}
+      name="guests"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel className="font-light text-sm">
+            Số lượng người tham dự
+          </FormLabel>
+          <Select onValueChange={field.onChange} value={field.value}>
+            <FormControl>
+              <SelectTrigger className="py-5 font-light w-full">
+                <SelectValue placeholder="Chọn số lượng" />
+              </SelectTrigger>
+            </FormControl>
+            <SelectContent>
+              {["1", "2", "3", "4", "5"].map((num) => (
+                <SelectItem key={num} value={num} className="font-light">
+                  {num} người
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <FormMessage className="text-xs text-red-500 font-light" />
+        </FormItem>
+      )}
+    />
+  );
+}
+
+
 export const FinalSection = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema as any),
     defaultValues: {
@@ -56,6 +154,7 @@ export const FinalSection = () => {
   });
 
   async function onSubmit(data: FormValues) {
+    setIsLoading(true);
     try {
       const response = await fetch("/api/rsvp", {
         method: "POST",
@@ -64,7 +163,7 @@ export const FinalSection = () => {
       });
 
       if (response.ok) {
-        toast.success("Cảm ơn bạn! Xác nhận đã được gửi đi thành công.");
+        toast.success("Cảm ơn bạn! Chúc bạn mọi điều tốt lành nhất đến với bạn.");
         form.reset();
       } else {
         toast.error("Lỗi: " + response.statusText);
@@ -72,6 +171,8 @@ export const FinalSection = () => {
 
     } catch (error) {
       toast.error("Không thể kết nối đến máy chủ.");
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -81,7 +182,7 @@ export const FinalSection = () => {
       <motion.div
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.5 }}
+        viewport={{ once: true, amount: 0.3 }}
         variants={fadeUp}
         className="flex flex-col items-center space-y-10"
       >
@@ -94,9 +195,6 @@ export const FinalSection = () => {
             className="object-contain"
           />
         </div>
-        <div className="text-lg font-extralight text-gray-500">
-          Hộp quà cưới
-        </div>
       </motion.div>
 
       {/* KHỐI 2: FORM [cite: 301-318] */}
@@ -105,7 +203,7 @@ export const FinalSection = () => {
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
         variants={fadeUp}
-        className="w-[90%] max-w-[360px] bg-white rounded-md shadow-card p-7 border border-gray-100"
+        className="w-[90%] max-w-[360px] bg-white rounded-md shadow-card p-5 md:p-7 border border-gray-100"
       >
         <h3 className="text-center font-bold mb-6">
           Xác nhận tham dự
@@ -132,74 +230,12 @@ export const FinalSection = () => {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="attendance"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel className="font-light text-sm">
-                    Bạn sẽ tham dự chứ?
-                  </FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      value={field.value}
-                      className="flex flex-col space-y-2"
-                    >
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="yes" />
-                        </FormControl>
-                        <FormLabel className="font-light cursor-pointer text-sm">
-                          Có, tôi sẽ tham dự
-                        </FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="no" />
-                        </FormControl>
-                        <FormLabel className="font-light cursor-pointer text-sm">
-                          Tôi bận, rất tiếc không thể tham dự
-                        </FormLabel>
-                      </FormItem>
-                    </RadioGroup>
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="guests"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="font-light text-sm">
-                    Số lượng người tham dự
-                  </FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="py-5 font-light w-full">
-                        <SelectValue placeholder="Chọn số lượng" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {["1", "2", "3", "4", "5"].map((num) => (
-                        <SelectItem
-                          key={num}
-                          value={num}
-                          className="font-light"
-                        >
-                          {num} người
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
+            <AttendanceField />
+            <GuestsField />
 
             <Button
               type="submit"
+              isLoading={isLoading}
               className="w-full py-6 font-medium active:scale-[0.98] transition-all"
             >
               Gửi xác nhận
@@ -220,7 +256,7 @@ export const FinalSection = () => {
           <Image
             fill
             alt="Chibi"
-            src="/images/couple.png"
+            src="/images/couple.webp"
             className="object-contain"
           />
         </div>
@@ -228,7 +264,7 @@ export const FinalSection = () => {
           <Image
             fill
             alt="Thank You"
-            src="/images/thank-you.png"
+            src="/images/thank-you.webp"
             className="object-contain"
           />
         </div>
@@ -236,3 +272,4 @@ export const FinalSection = () => {
     </section>
   );
 };
+

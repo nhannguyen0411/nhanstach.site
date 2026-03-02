@@ -3,9 +3,11 @@ import {
   Corinthia,
   Inter,
   Montserrat,
+  Imperial_Script,
   Petit_Formal_Script,
 } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const corinthia = Corinthia({
   subsets: ["latin"],
@@ -25,6 +27,12 @@ const petitFormalScript = Petit_Formal_Script({
   variable: "--font-petit-formal-script",
 });
 
+const imperialScript = Imperial_Script({
+   subsets: ["latin"],
+   weight: ["400"],
+   variable: "--font-imperial-script"
+});
+
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
@@ -40,9 +48,10 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <body
-        className={`${inter.variable} ${corinthia.variable} ${montserrat.variable} ${petitFormalScript.variable} bg-[#f9f8f6] text-[#333]`}
+        className={`${inter.variable} ${corinthia.variable} ${montserrat.variable} ${petitFormalScript.variable} ${imperialScript.variable} bg-[#f9f8f6] text-[#333]`}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   );

@@ -29,7 +29,7 @@ export const WeddingVenue = () => {
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.5 }}
+        viewport={{ once: true, amount: 0.3 }}
         className="flex flex-col items-center space-y-4"
       >
         <motion.div
@@ -51,11 +51,11 @@ export const WeddingVenue = () => {
       <motion.div
         initial={{ opacity: 0, y: 40 }} // Thay vì y: 200 có thể gây khoảng trắng quá lớn trên mobile
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.8 }} // Chìa khóa: Lộ 80% mới chạy
+        viewport={{ once: true, amount: 0.5 }} // Chìa khóa: Lộ 80% mới chạy
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="text-sm md:text-base tracking-wide uppercase leading-relaxed font-light text-center"
       >
-        124 Đường Chiến Thắng, Lê Chân, Hải Phòng
+        58/A ấp Hòa Hiệp, xã Long Hòa, huyện Cần Giờ
       </motion.div>
 
       {/* KHỐI 3: Nút bấm - Thường hiện sau địa chỉ */}
@@ -66,9 +66,14 @@ export const WeddingVenue = () => {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="flex justify-center"
       >
-        <button className="bg-gold text-white px-10 py-2 rounded-full shadow-md active:scale-95 transition-transform">
+        <a
+          href="https://byvn.net/LO9q"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-gold text-white px-10 py-2 rounded-full shadow-md active:scale-95 transition-transform inline-block"
+        >
           Xem đường đi
-        </button>
+        </a>
       </motion.div>
     </section>
   );
