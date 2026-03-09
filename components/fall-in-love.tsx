@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion, Variants } from "framer-motion";
+import tson5627 from "@/public/images/TSON5627.webp";
 
 // 1. Variant cho Header và Ảnh
 const topContainerVariants: Variants = {
@@ -74,9 +75,10 @@ export const FallInLove = () => {
         >
           <div className="relative w-full h-[260px]">
             <Image
-              src="/images/TSON5627.webp"
+              src={tson5627}
               alt="Fall in love couple portrait"
               fill
+              placeholder="blur"
               className="object-cover"
             />
           </div>

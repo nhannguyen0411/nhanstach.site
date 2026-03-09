@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import "./style.css";
+import flowerTopLeft from "@/public/images/flower-top-left.webp";
+import flowerBottomRight from "@/public/images/flower-bottom-right.webp";
 
 interface EnvelopeProps {
   onOpen?: () => void;
@@ -48,7 +50,8 @@ export const Envelope = ({ onOpen }: EnvelopeProps) => {
                 <Image
                   fill
                   alt="Flower Top Left"
-                  src="/images/flower-top-left.webp"
+                  src={flowerTopLeft}
+                  placeholder="blur"
                   className="object-contain"
                   priority
                 />
@@ -58,7 +61,8 @@ export const Envelope = ({ onOpen }: EnvelopeProps) => {
                   fill
                   alt="Flower Bottom Right"
                   className="object-contain"
-                  src="/images/flower-bottom-right.webp"
+                  src={flowerBottomRight}
+                  placeholder="blur"
                   priority
                 />
               </div>

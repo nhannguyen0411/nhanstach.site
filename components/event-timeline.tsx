@@ -3,6 +3,7 @@
 import { motion, Variants } from "framer-motion";
 import Image from "next/image";
 import { Heart } from "./heart";
+import tson5976 from "@/public/images/TSON5976.webp";
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -68,7 +69,8 @@ export const EventTimeline = () => {
                 fill
                 className="object-cover"
                 alt="Calendar Background"
-                src="/images/TSON5976.webp"
+                src={tson5976}
+                placeholder="blur"
               />
               <div className="absolute inset-x-0 bottom-0 h-[65%] bg-linear-to-t from-black/80 via-black/30 to-transparent pointer-events-none"></div>
             </motion.div>

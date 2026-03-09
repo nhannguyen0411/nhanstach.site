@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import { motion, Variants } from "framer-motion";
+import tson5475 from "@/public/images/TSON5475.webp";
+import tson6302 from "@/public/images/TSON6302.webp";
 
 // Định nghĩa các bộ hiệu ứng (Variants)
 const brushVariant: Variants = {
@@ -64,7 +66,8 @@ export const CoupleProfiles = () => {
               fill
               alt="Groom"
               className="object-cover"
-              src="/images/TSON6302.webp"
+              src={tson6302}
+              placeholder="blur"
             />
           </div>
           <div className="text-center">
@@ -85,9 +88,10 @@ export const CoupleProfiles = () => {
         >
           <div className="relative w-full aspect-180/258 mb-5">
             <Image
-              src="/images/TSON5475.webp"
+              src={tson5475}
               alt="Bride"
               fill
+              placeholder="blur"
               className="object-cover"
             />
           </div>

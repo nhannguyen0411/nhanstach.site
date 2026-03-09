@@ -3,6 +3,9 @@
 import { motion, Variants } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import tson5818 from "@/public/images/TSON5818.webp";
+import tson6107 from "@/public/images/TSON6107.webp";
+import tson6195 from "@/public/images/TSON6195.webp";
 
 // 1. Variants cho 3 chữ Header (Chạy cùng lúc từ 3 hướng)
 // const leftIn: Variants = {
@@ -112,9 +115,10 @@ export const WelcomeCountdown = () => {
               className="relative w-full h-full"
             >
               <Image
-                src="/images/TSON5818.webp"
+                src={tson5818}
                 alt="Phuong Trang & Trong Nhan Gallery 1"
                 fill
+                placeholder="blur"
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/10 to-transparent pointer-events-none"></div>
@@ -133,9 +137,10 @@ export const WelcomeCountdown = () => {
               className="relative w-full h-full"
             >
               <Image
-                src="/images/TSON6107.webp"
+                src={tson6107}
                 alt="Phuong Trang & Trong Nhan Gallery 2"
                 fill
+                placeholder="blur"
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/10 to-transparent pointer-events-none"></div>
@@ -154,9 +159,10 @@ export const WelcomeCountdown = () => {
               className="relative w-full h-full"
             >
               <Image
-                src="/images/TSON6195.webp"
+                src={tson6195}
                 alt="Phuong Trang & Trong Nhan Gallery 3"
                 fill
+                placeholder="blur"
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/10 to-transparent pointer-events-none"></div>
