@@ -51,7 +51,7 @@ export const Envelope = ({ onOpen }: EnvelopeProps) => {
                   fill
                   alt="Flower Top Left"
                   src={flowerTopLeft}
-                  placeholder="blur"
+                  // placeholder="blur"
                   className="object-contain"
                   priority
                 />
@@ -62,17 +62,17 @@ export const Envelope = ({ onOpen }: EnvelopeProps) => {
                   alt="Flower Bottom Right"
                   className="object-contain"
                   src={flowerBottomRight}
-                  placeholder="blur"
+                  // placeholder="blur"
                   priority
                 />
               </div>
               <div className="card-logo-wrap">
                 <Image
-                  src="/images/logo.webp"
-                  alt="NT Monogram"
                   fill
-                  className="object-contain"
                   priority
+                  alt="NT Monogram"
+                  src="/images/logo.webp"
+                  className="object-contain"
                 />
               </div>
               <div className="card-text-block">

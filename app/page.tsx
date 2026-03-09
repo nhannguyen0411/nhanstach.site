@@ -45,7 +45,7 @@ export default function LandingPage() {
         const elapsed = lastTimestampRef.current !== null
           ? Math.min(timestamp - lastTimestampRef.current, 100)
           : 0;
-        const delta = (elapsed / 1000) * 60; // 45px/s
+        const delta = (elapsed / 1000) * 85; // 45px/s
         accumulatedScrollRef.current = Math.min(accumulatedScrollRef.current + delta, maxScrollTop);
         el.scrollTop = accumulatedScrollRef.current;
       }
