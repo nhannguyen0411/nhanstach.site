@@ -99,7 +99,7 @@ export const CoupleProfiles = () => {
             <div className="font-light mb-1 text-gray-400 text-sm md:text-base">
               Út Nữ
             </div>
-            <div className="text-xl md:text-3xl font-imperial-script">Phương Trang</div>
+            <div className="text-2xl md:text-3xl font-imperial-script">Phương Trang</div>
           </div>
         </motion.div>
       </div>
